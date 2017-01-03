@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Mark Johnson
  */
-public interface ClientDescriptor extends Labeled, Authored, Versioned {
+public interface ExtensionDescriptor extends Labeled, Authored, Versioned {
     @Override
     String getLabel();
 

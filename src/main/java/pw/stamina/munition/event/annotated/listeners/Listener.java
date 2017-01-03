@@ -6,7 +6,7 @@ import pw.stamina.munition.event.core.selection.Selector;
 /**
  * @author Mark Johnson
  */
-public class Listener<K, E> implements ListenerBody<E>, Selecting<K> {
+public class Listener<K, E> implements ListenerBody<E>, Selective<K> {
 
     private final ListenerBody<E> listenerBody;
 

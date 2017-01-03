@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Mark Johnson
  */
-public abstract class AbstractClientDescriptor implements ClientDescriptor {
+public abstract class AbstractExtensionDescriptor implements ExtensionDescriptor {
 
     private final String label;
 
@@ -16,7 +16,7 @@ public abstract class AbstractClientDescriptor implements ClientDescriptor {
 
     private final List<Author> authors;
 
-    protected AbstractClientDescriptor(final String label, final Version version, final List<Author> authors) {
+    protected AbstractExtensionDescriptor(final String label, final Version version, final List<Author> authors) {
         this.label = label;
         this.version = version;
         this.authors = authors;

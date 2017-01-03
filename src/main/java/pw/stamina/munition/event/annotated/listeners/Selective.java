@@ -5,6 +5,6 @@ import pw.stamina.munition.event.core.selection.Selector;
 /**
  * @author Mark Johnson
  */
-public interface Selecting<K> {
+public interface Selective<K> {
     Selector<K> getSelector();
 }
