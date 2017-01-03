@@ -19,6 +19,30 @@ public final class Selectors {
         return new ObjectSelector<>(key);
     }
 
+    public static <K> Selector<K> object(final K key) {
+        return new ObjectSelector<>(key);
+    }
+
+    public static <K> Selector<K> when(final Predicate<K> key) {
+        return new PredicateSelector<>(key);
+    }
+
+    public static <K extends CharSequence> Selector<K> regex(final String regex, final int flags) {
+        return new RegexSelector<>(Pattern.compile(regex, flags));
+    }
+
+    public static <K extends CharSequence> Selector<K> regex(final String regex) {
+        return new RegexSelector<>(Pattern.compile(regex));
+    }
+
+    public static <K> Selector<K> isA(final Class<? extends K> clazz) {
+        return new ClassSelector<>(clazz);
+    }
+
+    public static <K> Selector<K> any() {
+        return PassThroughSelector.getInstance();
+    }
+
     public static <K> Selector<K> dynamic(final K key) {
         return key != null ? findAppropriateSelectorForNonnullObject(key) : any();
     }
@@ -39,10 +63,6 @@ public final class Selectors {
             }
         }
         return $(object);
-    }
-
-    public static <K> Selector<K> any() {
-        return PassThroughSelector.getInstance();
     }
 
     static {

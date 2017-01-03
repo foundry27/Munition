@@ -16,6 +16,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static pw.stamina.munition.event.core.selection.Selectors.$;
 import static pw.stamina.munition.event.core.selection.Selectors.dynamic;
+import static pw.stamina.munition.event.core.selection.Selectors.regex;
 
 /**
  * @author Mark Johnson
@@ -39,7 +40,7 @@ public class EventSelectorTests {
         final String successfulKey = "123456";
         final String failingKey = "abcdefg123456";
 
-        final Registration<?, ?> reg = bus.on(new RegexSelector<>(atLeasOneIntegerMatcherPattern), event -> {});
+        final Registration<?, ?> reg = bus.on(regex(atLeasOneIntegerMatcherPattern), event -> {});
 
         assertTrue("Event bus did not respond to key matching registered object", bus.respondsToKey(successfulKey));
         assertFalse("Event bus responded to invalid key", bus.respondsToKey(failingKey));

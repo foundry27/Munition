@@ -11,14 +11,6 @@ public class RegexSelector<K extends CharSequence> extends AbstractBiSelector<K,
         super(pattern);
     }
 
-    public RegexSelector(final String key, final int flags) {
-        this(Pattern.compile(key, flags));
-    }
-
-    public RegexSelector(final String key) {
-        this(key, 0);
-    }
-
     @Override
     public boolean canSelect(final K chars) {
         return key.matcher(chars).matches();
