@@ -35,7 +35,7 @@ public class PluginAnnotationsTest {
 
         assertEquals("A", pluginA.getLabel());
         assertEquals("a.b.c.d", pluginA.getBundle());
-        assertEquals(new Version(0, 1, 0, EnumSet.of(VersionTag.SNAPSHOT)), pluginA.getVersion());
+        assertEquals(new Version(0, 1, 0, EnumSet.of(VersionTag.SNAPSHOT), Collections.singletonList("foo")), pluginA.getVersion());
 
         final Optional<FeatureMetadata> metadataOptional = pluginA.findMetadata();
         assertTrue("PluginA does not have a metadata annotation", metadataOptional.isPresent());
@@ -66,7 +66,7 @@ public class PluginAnnotationsTest {
 
     @FeatureModel(
             label = "A",
-            version = @VersionModel(major = 0, minor = 1, patch = 0, tags = {VersionTag.SNAPSHOT}),
+            version = @VersionModel(major = 0, minor = 1, patch = 0, tags = {VersionTag.SNAPSHOT}, meta = {"foo"}),
             bundle = "a.b.c.d",
             meta = @MetadataModel(
                     authors = {

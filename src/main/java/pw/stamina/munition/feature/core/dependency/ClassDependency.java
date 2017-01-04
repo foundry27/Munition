@@ -77,5 +77,13 @@ public class ClassDependency extends AbstractAutomaticLookupDependency<ClassLoad
                         aClass.getCanonicalName(), methodName, Arrays.toString(methodParameters)));
             }
         }
+
+        @Override
+        public String toString() {
+            return "MethodRequirement{" +
+                    "name='" + methodName + '\'' +
+                    ", parameters=" + Arrays.toString(methodParameters) +
+                    '}';
+        }
     }
 }
