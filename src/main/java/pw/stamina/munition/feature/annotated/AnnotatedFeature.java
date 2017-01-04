@@ -35,7 +35,7 @@ public abstract class AnnotatedFeature implements Feature {
         this.bundle = model.bundle();
 
         final VersionModel versionModel = model.version();
-        this.version = Version.of(versionModel.major(), versionModel.minor(), versionModel.patch(), versionModel.tags());
+        this.version = Version.of(versionModel.major(), versionModel.minor(), versionModel.patch(), versionModel.tags(), versionModel.meta());
 
         final MetadataModel metadataModel = model.meta();
         if (metadataModel.authors().length == 0 && metadataModel.description().isEmpty()) {

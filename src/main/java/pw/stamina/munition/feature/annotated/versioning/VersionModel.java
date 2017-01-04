@@ -13,4 +13,6 @@ public @interface VersionModel {
     int patch() default 0;
 
     VersionTag[] tags() default {};
+
+    String[] meta() default {};
 }

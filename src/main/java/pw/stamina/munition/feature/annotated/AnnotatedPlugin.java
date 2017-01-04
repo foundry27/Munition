@@ -41,8 +41,8 @@ public abstract class AnnotatedPlugin extends AnnotatedFeature implements Plugin
     private static List<Dependency<?>> getFeatureDependencies(final DependsOnFeature[] dependencies) {
         return Arrays.stream(dependencies)
                 .map(dep -> new FeatureDependency(dep.label(), dep.bundle(),
-                        Version.of(dep.min().major(), dep.min().minor(), dep.min().patch(), dep.min().tags()),
-                        Version.of(dep.max().major(), dep.max().minor(), dep.max().patch(), dep.max().tags())))
+                        Version.of(dep.min().major(), dep.min().minor(), dep.min().patch(), dep.min().tags(), dep.min().meta()),
+                        Version.of(dep.max().major(), dep.max().minor(), dep.max().patch(), dep.max().tags(), dep.max().meta())))
                 .collect(Collectors.toList());
     }
 
