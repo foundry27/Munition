@@ -7,7 +7,7 @@ import pw.stamina.munition.event.core.registration.Registration;
 import pw.stamina.munition.event.core.registration.registry.SimpleRegistry;
 import pw.stamina.munition.event.core.routing.SimpleRouter;
 import pw.stamina.munition.event.core.selection.ClassSelector;
-import pw.stamina.munition.event.direct.SimpleEventBus;
+import pw.stamina.munition.event.core.SimpleEventBus;
 
 import static org.junit.Assert.assertEquals;
 import static pw.stamina.munition.event.core.selection.Selectors.$;

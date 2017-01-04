@@ -7,7 +7,7 @@ import pw.stamina.munition.event.core.registration.Registration;
 import pw.stamina.munition.event.core.registration.registry.SimpleRegistry;
 import pw.stamina.munition.event.core.routing.SimpleRouter;
 import pw.stamina.munition.event.core.selection.*;
-import pw.stamina.munition.event.direct.SimpleEventBus;
+import pw.stamina.munition.event.core.SimpleEventBus;
 
 import java.util.function.Predicate;
 import java.util.regex.Pattern;

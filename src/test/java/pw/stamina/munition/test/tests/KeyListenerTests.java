@@ -6,7 +6,7 @@ import pw.stamina.munition.event.core.EventBus;
 import pw.stamina.munition.event.core.registration.registry.SimpleRegistry;
 import pw.stamina.munition.event.core.routing.SimpleRouter;
 import pw.stamina.munition.event.core.selection.Selectors;
-import pw.stamina.munition.event.direct.SimpleEventBus;
+import pw.stamina.munition.event.core.SimpleEventBus;
 import pw.stamina.munition.input.keyboard.EventDrivenKeyListenerProvider;
 import pw.stamina.munition.input.keyboard.KeyListener;
 import pw.stamina.munition.input.keyboard.KeyListenerProvider;
