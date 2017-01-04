@@ -6,12 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Circle" />
         <module name="Munition" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="Circle" target="1.8" />
       <module name="Munition" target="1.8" />
     </bytecodeTargetLevel>
   </component>
