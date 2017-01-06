@@ -1,4 +1,4 @@
-package pw.stamina.munition.feature.core.dependency;
+package pw.stamina.munition.feature.plugin.dependency;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

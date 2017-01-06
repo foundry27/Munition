@@ -1,4 +1,4 @@
-package pw.stamina.munition.feature.core.dependency;
+package pw.stamina.munition.feature.plugin.dependency;
 
 /**
  * @author Mark Johnson

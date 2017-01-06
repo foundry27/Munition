@@ -5,11 +5,11 @@ import pw.stamina.munition.feature.annotated.dependency.Dependencies;
 import pw.stamina.munition.feature.annotated.dependency.DependsOnClass;
 import pw.stamina.munition.feature.annotated.dependency.DependsOnFeature;
 import pw.stamina.munition.feature.annotated.dependency.DependsOnPackage;
-import pw.stamina.munition.feature.core.Plugin;
-import pw.stamina.munition.feature.core.dependency.ClassDependency;
-import pw.stamina.munition.feature.core.dependency.Dependency;
-import pw.stamina.munition.feature.core.dependency.FeatureDependency;
-import pw.stamina.munition.feature.core.dependency.PackageDependency;
+import pw.stamina.munition.feature.plugin.Plugin;
+import pw.stamina.munition.feature.plugin.dependency.ClassDependency;
+import pw.stamina.munition.feature.plugin.dependency.Dependency;
+import pw.stamina.munition.feature.plugin.dependency.FeatureDependency;
+import pw.stamina.munition.feature.plugin.dependency.PackageDependency;
 
 import java.util.*;
 import java.util.stream.Collectors;

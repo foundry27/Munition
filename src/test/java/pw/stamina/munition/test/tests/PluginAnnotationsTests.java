@@ -11,10 +11,10 @@ import pw.stamina.munition.feature.annotated.metadata.AuthorModel;
 import pw.stamina.munition.feature.annotated.metadata.MetadataModel;
 import pw.stamina.munition.feature.annotated.versioning.VersionModel;
 import pw.stamina.munition.feature.core.Feature;
-import pw.stamina.munition.feature.core.Plugin;
-import pw.stamina.munition.feature.core.dependency.Dependency;
-import pw.stamina.munition.feature.core.dependency.resolution.DependencyResolver;
-import pw.stamina.munition.feature.core.dependency.resolution.DependencyResolverBuilder;
+import pw.stamina.munition.feature.plugin.Plugin;
+import pw.stamina.munition.feature.plugin.dependency.Dependency;
+import pw.stamina.munition.feature.plugin.dependency.resolution.DependencyResolver;
+import pw.stamina.munition.feature.plugin.dependency.resolution.DependencyResolverBuilder;
 import pw.stamina.munition.feature.core.metadata.FeatureMetadata;
 import pw.stamina.munition.management.reflection.util.TypeToken;
 
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
  * @author Mark Johnson
  */
 
-public class PluginAnnotationsTest {
+public class PluginAnnotationsTests {
 
     @Test
     public void testRetrievingFeatureModelDataFromAnnotations() {

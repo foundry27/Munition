@@ -1,10 +1,10 @@
-package pw.stamina.munition.feature.core.dependency;
+package pw.stamina.munition.feature.plugin.dependency;
 
 import pw.stamina.munition.core.versioning.Version;
 import pw.stamina.munition.core.versioning.Versioned;
 import pw.stamina.munition.feature.core.Feature;
-import pw.stamina.munition.feature.core.Plugin;
-import pw.stamina.munition.feature.core.dependency.resolution.DependencyResolver;
+import pw.stamina.munition.feature.plugin.Plugin;
+import pw.stamina.munition.feature.plugin.dependency.resolution.DependencyResolver;
 import pw.stamina.munition.management.reflection.util.TypeToken;
 
 import java.lang.reflect.Type;

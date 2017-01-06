@@ -1,7 +1,8 @@
-package pw.stamina.munition.feature.core;
+package pw.stamina.munition.feature.plugin;
 
 import pw.stamina.munition.core.traits.Pluggable;
-import pw.stamina.munition.feature.core.dependency.Dependency;
+import pw.stamina.munition.feature.core.Feature;
+import pw.stamina.munition.feature.plugin.dependency.Dependency;
 
 import java.util.Set;
 

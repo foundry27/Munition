@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="versiontype">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="targettype">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string"/>
+            <xs:element name="bundle" type="xs:string"/>
+            <xs:element name="minversion" type="versiontype" minOccurs="0"/>
+            <xs:element name="maxversion" type="versiontype" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="includestype">
+        <xs:sequence>
+            <xs:element name="include" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="plugintype">
+        <xs:sequence>
+            <xs:element name="target" type="targettype"/>
+            <xs:element name="includes" type="includestype"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="plugin" type="plugintype"/>
+
+</xs:schema>

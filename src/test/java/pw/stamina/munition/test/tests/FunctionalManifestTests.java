@@ -6,7 +6,7 @@ import pw.stamina.munition.feature.annotated.AnnotatedPlugin;
 import pw.stamina.munition.feature.annotated.FeatureModel;
 import pw.stamina.munition.feature.annotated.versioning.VersionModel;
 import pw.stamina.munition.feature.core.Feature;
-import pw.stamina.munition.feature.core.Plugin;
+import pw.stamina.munition.feature.plugin.Plugin;
 import pw.stamina.munition.management.manifest.Manifest;
 import pw.stamina.munition.management.manifest.Manifests;
 

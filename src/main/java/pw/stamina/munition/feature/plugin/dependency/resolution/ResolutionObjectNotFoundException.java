@@ -1,4 +1,4 @@
-package pw.stamina.munition.feature.core.dependency.resolution;
+package pw.stamina.munition.feature.plugin.dependency.resolution;
 
 /**
  * @author Mark Johnson

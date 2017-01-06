@@ -1,4 +1,4 @@
-package pw.stamina.munition.management.reflection;
+package pw.stamina.munition.feature.plugin.loading.instantiation;
 
 /**
  * @author Mark Johnson

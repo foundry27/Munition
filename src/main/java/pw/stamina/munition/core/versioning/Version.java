@@ -39,15 +39,6 @@ public final class Version implements Comparable<Version> {
         this(majorVersion, minorVersion, patchVersion, Collections.emptySet(), Collections.emptyList());
     }
 
-    public static Version of(final int majorVersion, final int minorVersion, final int patchVersion, final VersionTag... tags) {
-        return of(majorVersion, minorVersion, patchVersion, tags, new String[0]);
-    }
-
-    public static Version of(final int majorVersion, final int minorVersion, final int patchVersion, final VersionTag[] tags, final String... metadata) {
-        final Set<VersionTag> tagSet = tags.length > 0 ? EnumSet.copyOf(Arrays.asList(tags)) : Collections.emptySet();
-        return new Version(majorVersion, minorVersion, patchVersion, tagSet, Arrays.asList(metadata));
-    }
-
     private static void validateConstructorArguments(final int majorVersion, final int minorVersion, final int patchVersion, final Set<VersionTag> tags) {
         if (majorVersion < 0) {
             throw new IllegalArgumentException("The major version number associated with this version cannot be less than zero");
@@ -60,6 +51,15 @@ public final class Version implements Comparable<Version> {
         } else if (tags.contains(null)) {
             throw new IllegalArgumentException("The set of version tags associated with this version cannot contain null");
         }
+    }
+
+    public static Version of(final int majorVersion, final int minorVersion, final int patchVersion, final VersionTag... tags) {
+        return of(majorVersion, minorVersion, patchVersion, tags, new String[0]);
+    }
+
+    public static Version of(final int majorVersion, final int minorVersion, final int patchVersion, final VersionTag[] tags, final String... metadata) {
+        final Set<VersionTag> tagSet = tags.length > 0 ? EnumSet.copyOf(Arrays.asList(tags)) : Collections.emptySet();
+        return new Version(majorVersion, minorVersion, patchVersion, tagSet, Arrays.asList(metadata));
     }
 
     public int getMajorVersion() {

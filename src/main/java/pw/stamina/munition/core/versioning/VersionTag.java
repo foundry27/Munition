@@ -3,8 +3,8 @@ package pw.stamina.munition.core.versioning;
 /**
  * @author Mark Johnson
  */
-public enum VersionTag {
-    SNAPSHOT("Snapshot");
+public enum VersionTag implements Comparable<VersionTag> {
+    SNAPSHOT("SNAPSHOT");
 
     private final String tagName;
 
