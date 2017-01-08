@@ -1,4 +1,4 @@
-package pw.stamina.munition.feature.plugin.loading.instantiation;
+package pw.stamina.munition.feature.plugin.loading.includes.instantiation;
 
 /**
  * @author Mark Johnson

@@ -22,6 +22,7 @@ public class SimpleAnnotatedEventBus<K, E, R> extends AbstractAnnotatedEventBus<
     public ScanResult<K, Event<E>> scan(final R registrant) throws ScanFailedException {
         return Arrays.stream(registrant.getClass().getDeclaredFields())
                 .filter(SimpleAnnotatedEventBus::checkIfValidFieldAndEnsureConsistency)
+                .map(field -> getFieldContents(field, registrant))
                 .map(this::tryCreatingRegistrationFromFieldContent)
                 .collect(new ScanResultCollector<>());
     }

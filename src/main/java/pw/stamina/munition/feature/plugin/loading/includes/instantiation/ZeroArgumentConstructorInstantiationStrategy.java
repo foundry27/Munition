@@ -1,4 +1,4 @@
-package pw.stamina.munition.feature.plugin.loading.instantiation;
+package pw.stamina.munition.feature.plugin.loading.includes.instantiation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +17,7 @@ public final class ZeroArgumentConstructorInstantiationStrategy<T> implements In
     @Override
     public T instantiate(final Class<? extends T> targetClass) throws ObjectInstantiationException {
         try {
-            final Constructor<? extends T> constructor = targetClass.getConstructor();
+            final Constructor<? extends T> constructor = targetClass.getDeclaredConstructor();
             AccessController.doPrivileged((PrivilegedAction<Void>)() -> {
                 constructor.setAccessible(true);
                 return null;

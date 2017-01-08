@@ -44,8 +44,8 @@ public final class PluginTargetDescriptor {
     public boolean isCompatibleWith(final ExtensionDescriptor extensionDescriptor) {
         return targetName.equals(extensionDescriptor.getLabel()) &&
                 targetBundle.equals(extensionDescriptor.getBundle()) &&
-                (minTargetVersion.compareTo(extensionDescriptor.getVersion()) >= 0 &&
-                        maxTargetVersion.compareTo(extensionDescriptor.getVersion()) <= 0);
+                (extensionDescriptor.getVersion().compareTo(minTargetVersion) >= 0 &&
+                        extensionDescriptor.getVersion().compareTo(maxTargetVersion) <= 0);
     }
 
     @Override

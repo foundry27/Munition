@@ -3,15 +3,18 @@ package pw.stamina.munition.feature.plugin.loading;
 import pw.stamina.munition.core.ExtensionDescriptor;
 import pw.stamina.munition.feature.plugin.Plugin;
 import pw.stamina.munition.feature.plugin.loading.configuration.PluginConfigurationDescriptor;
+import pw.stamina.munition.feature.plugin.loading.configuration.loading.PluginConfigurationLoader;
 import pw.stamina.munition.feature.plugin.loading.configuration.parsing.PluginConfigurationParser;
-import pw.stamina.munition.feature.plugin.loading.instantiation.InstantiationStrategy;
+import pw.stamina.munition.feature.plugin.loading.includes.IncludeResolver;
 
-import java.io.IOException;
 import java.net.URL;
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 /**
@@ -21,11 +24,11 @@ public class PluginLoader implements Iterable<Plugin> {
 
     private final ExtensionDescriptor extensionDescriptor;
 
-    private final ClassLoader classLoader;
-
-    private final InstantiationStrategy<Plugin> instantiationStrategy;
+    private final IncludeResolver<Plugin> includeResolver;
 
     private final String configurationFilePath;
+
+    private final PluginConfigurationLoader configurationLoader;
 
     private final PluginConfigurationParser configurationParser;
 
@@ -34,14 +37,14 @@ public class PluginLoader implements Iterable<Plugin> {
     private Iterator<Plugin> lazyLookupIterator;
 
     public PluginLoader(final ExtensionDescriptor extensionDescriptor,
-                        final ClassLoader classLoader,
-                        final InstantiationStrategy<Plugin> instantiationStrategy,
+                        final IncludeResolver<Plugin> includeResolver,
                         final String configurationFilePath,
+                        final PluginConfigurationLoader configurationLoader,
                         final PluginConfigurationParser configurationParser) {
         this.extensionDescriptor = extensionDescriptor;
-        this.classLoader = classLoader;
-        this.instantiationStrategy = instantiationStrategy;
+        this.includeResolver = includeResolver;
         this.configurationFilePath = configurationFilePath;
+        this.configurationLoader = configurationLoader;
         this.configurationParser = configurationParser;
         this.cachedPlugins  = new LinkedHashMap<>();
         reload();
@@ -49,7 +52,9 @@ public class PluginLoader implements Iterable<Plugin> {
 
     public void reload() {
         cachedPlugins.clear();
-        lazyLookupIterator = new StrictlyConsistentIterator<>(new PrivilegedAccessIteratorDecorator<>(new LazyPluginIterator()),
+        lazyLookupIterator = new StrictlyConsistentIteratorDecorator<>(
+                new PrivilegedAccessIteratorDecorator<>(
+                        new LazyPluginIterator()),
                 () -> new NoSuchElementException("There are no more plugins to load!"));
     }
 
@@ -77,7 +82,7 @@ public class PluginLoader implements Iterable<Plugin> {
 
     private class LazyPluginIterator implements Iterator<Plugin> {
 
-        private Enumeration<URL> configurationFiles;
+        private Iterator<URL> configurationFiles;
 
         private PluginConfigurationDescriptor pendingConfigurationDescriptor;
 
@@ -91,7 +96,7 @@ public class PluginLoader implements Iterable<Plugin> {
                 return true;
             }
             if (configurationFiles == null) {
-                tryLoadingConfigurationFiles(configurationFilePath);
+                configurationFiles = configurationLoader.loadConfigurations(configurationFilePath);
             }
             if (!ensureMorePluginClassesAreAvailable()) {
                 return false;
@@ -103,34 +108,24 @@ public class PluginLoader implements Iterable<Plugin> {
 
         private boolean ensureMorePluginClassesAreAvailable() {
             while (pendingPluginClasses == null || !pendingPluginClasses.hasNext()) {
-                if (!configurationFiles.hasMoreElements()) {
+                if (!configurationFiles.hasNext()) {
                     return false;
                 }
-                pendingConfigurationDescriptor = configurationParser.parsePluginConfiguration(configurationFiles.nextElement());
+                pendingConfigurationDescriptor = configurationParser.parsePluginConfiguration(configurationFiles.next());
                 if (!pendingConfigurationDescriptor.getPluginTarget().isCompatibleWith(extensionDescriptor)) {
                     throw new PluginLoadingException("Incompatible plugin targets: Found " + extensionDescriptor +
                             " but requires " + pendingConfigurationDescriptor.getPluginTarget());
                 }
-                pendingPluginClasses = pendingConfigurationDescriptor.getPluginIncludes().getIncludedPluginClasses().iterator();
+                pendingPluginClasses = pendingConfigurationDescriptor.getPluginIncludes().getIncludeData().iterator();
             }
             return true;
-        }
-
-        private void tryLoadingConfigurationFiles(final String configurationFileName) {
-            try {
-                configurationFiles = classLoader.getResources(configurationFileName);
-            } catch (final IOException e) {
-                throw new PluginLoadingException("Exception encountered while reading configuration files for plugins:", e);
-            }
         }
 
         @Override
         public Plugin next() {
             final String pluginClassName = getAndUpdateNextPluginClassName();
 
-            final Class<? extends Plugin> pluginClass = tryResolvingClassFromName(pluginClassName);
-
-            final Plugin plugin = instantiationStrategy.instantiate(pluginClass);
+            final Plugin plugin = includeResolver.resolveInclude(pluginClassName);
 
             cachedPlugins.put(pluginClassName, plugin);
 
@@ -141,19 +136,6 @@ public class PluginLoader implements Iterable<Plugin> {
             final String pluginClassName = nextPluginClass;
             nextPluginClass = null;
             return pluginClassName;
-        }
-
-        private Class<? extends Plugin> tryResolvingClassFromName(final String pluginClass) {
-            final Class<?> classLookup;
-            try {
-                classLookup = Class.forName(pluginClass, false, classLoader);
-            } catch (final ClassNotFoundException e) {
-                throw new PluginLoadingException("Malformed plugin configuration: class '" + nextPluginClass + "' does not exist");
-            }
-            if (!Plugin.class.isAssignableFrom(classLookup)) {
-                throw new PluginLoadingException("Class " + classLookup.getCanonicalName() + " is not a subtype of class " + Plugin.class.getCanonicalName());
-            }
-            return classLookup.asSubclass(Plugin.class);
         }
     }
 
@@ -187,13 +169,13 @@ public class PluginLoader implements Iterable<Plugin> {
         }
     }
 
-    private static class StrictlyConsistentIterator<T> implements Iterator<T> {
+    private static class StrictlyConsistentIteratorDecorator<T> implements Iterator<T> {
 
         private final Iterator<T> backingIterator;
 
         private final Supplier<? extends RuntimeException> exceptionSupplier;
 
-        StrictlyConsistentIterator(final Iterator<T> backingIterator, final Supplier<? extends RuntimeException> exceptionSupplier) {
+        StrictlyConsistentIteratorDecorator(final Iterator<T> backingIterator, final Supplier<? extends RuntimeException> exceptionSupplier) {
             this.backingIterator = backingIterator;
             this.exceptionSupplier = exceptionSupplier;
         }

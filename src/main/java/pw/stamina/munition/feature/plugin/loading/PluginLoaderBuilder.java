@@ -2,10 +2,13 @@ package pw.stamina.munition.feature.plugin.loading;
 
 import pw.stamina.munition.core.ExtensionDescriptor;
 import pw.stamina.munition.feature.plugin.Plugin;
+import pw.stamina.munition.feature.plugin.loading.configuration.loading.ClassLoaderResourcePluginConfigurationLoader;
+import pw.stamina.munition.feature.plugin.loading.configuration.loading.PluginConfigurationLoader;
 import pw.stamina.munition.feature.plugin.loading.configuration.parsing.PluginConfigurationParser;
 import pw.stamina.munition.feature.plugin.loading.configuration.parsing.StandardPluginConfigurationParser;
-import pw.stamina.munition.feature.plugin.loading.instantiation.InstantiationStrategy;
-import pw.stamina.munition.feature.plugin.loading.instantiation.ZeroArgumentConstructorInstantiationStrategy;
+import pw.stamina.munition.feature.plugin.loading.includes.LiteralClassNameIncludeResolver;
+import pw.stamina.munition.feature.plugin.loading.includes.IncludeResolver;
+import pw.stamina.munition.feature.plugin.loading.includes.instantiation.ZeroArgumentConstructorInstantiationStrategy;
 
 /**
  * @author Mark Johnson
@@ -18,7 +21,9 @@ public class PluginLoaderBuilder {
 
     private String configurationFilePath;
 
-    private InstantiationStrategy<Plugin> instantiationStrategy;
+    private IncludeResolver<Plugin> includeResolver;
+
+    private PluginConfigurationLoader pluginConfigurationLoader;
 
     private PluginConfigurationParser pluginConfigurationParser;
 
@@ -33,11 +38,18 @@ public class PluginLoaderBuilder {
         return this;
     }
 
-    public PluginLoaderBuilder usingInstantiationStrategy(final InstantiationStrategy<Plugin> instantiationStrategy) {
-        checkPrecondition("An instantiation strategy has already been provided for this builder", this.instantiationStrategy == null);
-        this.instantiationStrategy = instantiationStrategy;
+    public PluginLoaderBuilder usingIncludeResolver(final IncludeResolver<Plugin> includeResolver) {
+        checkPrecondition("An include resolver has already been provided for this builder", this.includeResolver == null);
+        this.includeResolver = includeResolver;
         return this;
     }
+
+    public PluginLoaderBuilder usingConfigurationLoader(final PluginConfigurationLoader pluginConfigurationLoader) {
+        checkPrecondition("A configuration loader has already been provided for this builder", this.pluginConfigurationLoader == null);
+        this.pluginConfigurationLoader = pluginConfigurationLoader;
+        return this;
+    }
+
 
     public PluginLoaderBuilder usingConfigurationParser(final PluginConfigurationParser pluginConfigurationParser) {
         checkPrecondition("A configuration parser has already been provided for this builder", this.pluginConfigurationParser == null);
@@ -46,10 +58,13 @@ public class PluginLoaderBuilder {
     }
 
     public PluginLoader build() {
-        return new PluginLoader(extensionDescriptor, classLoader,
-                instantiationStrategy == null ? ZeroArgumentConstructorInstantiationStrategy.getInstance() : instantiationStrategy,
+        return new PluginLoader(
+                extensionDescriptor,
+                includeResolver == null ? new LiteralClassNameIncludeResolver<>(Plugin.class, classLoader, ZeroArgumentConstructorInstantiationStrategy.getInstance()) : includeResolver,
                 configurationFilePath == null ? PluginLoaders.getStandardConfigurationFilePath() : configurationFilePath,
-                pluginConfigurationParser == null ? StandardPluginConfigurationParser.getInstance() : pluginConfigurationParser);
+                pluginConfigurationLoader == null ? new ClassLoaderResourcePluginConfigurationLoader(classLoader) : pluginConfigurationLoader,
+                pluginConfigurationParser == null ? StandardPluginConfigurationParser.getInstance() : pluginConfigurationParser
+        );
     }
 
     private static void checkPrecondition(final String message, final boolean condition) throws IllegalStateException {

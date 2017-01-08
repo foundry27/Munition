@@ -7,14 +7,14 @@ import java.util.Objects;
  */
 public final class PluginIncludesDescriptor {
 
-    private final Iterable<String> pluginIncludes;
+    private final Iterable<String> includeData;
 
-    public PluginIncludesDescriptor(final Iterable<String> pluginClasses) {
-        this.pluginIncludes = pluginClasses;
+    public PluginIncludesDescriptor(final Iterable<String> includeData) {
+        this.includeData = includeData;
     }
 
-    public Iterable<String> getIncludedPluginClasses() {
-        return pluginIncludes;
+    public Iterable<String> getIncludeData() {
+        return includeData;
     }
 
     @Override
@@ -22,18 +22,18 @@ public final class PluginIncludesDescriptor {
         if (this == o) return true;
         if (!(o instanceof PluginIncludesDescriptor)) return false;
         final PluginIncludesDescriptor that = (PluginIncludesDescriptor) o;
-        return Objects.equals(pluginIncludes, that.pluginIncludes);
+        return Objects.equals(includeData, that.includeData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pluginIncludes);
+        return Objects.hash(includeData);
     }
 
     @Override
     public String toString() {
         return "PluginIncludesDescriptor{" +
-                "includes=" + pluginIncludes +
+                "includes=" + includeData +
                 '}';
     }
 }
