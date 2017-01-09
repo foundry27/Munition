@@ -2,6 +2,7 @@ package pw.stamina.munition.event.core.routing;
 
 import pw.stamina.munition.event.core.registration.Registration;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -16,8 +17,8 @@ public class ExceptionHandlingRouterDecorator<K, V> implements Router<K, V> {
     private final Consumer<Throwable> throwableConsumer;
 
     public ExceptionHandlingRouterDecorator(final Router<K, V> backingRouter, final Consumer<Throwable> throwableConsumer) {
-        this.backingRouter = backingRouter;
-        this.throwableConsumer = throwableConsumer;
+        this.backingRouter = Objects.requireNonNull(backingRouter, "The backing router cannot be null");
+        this.throwableConsumer = Objects.requireNonNull(throwableConsumer, "The throwable consumer cannot be null");
     }
 
     @Override

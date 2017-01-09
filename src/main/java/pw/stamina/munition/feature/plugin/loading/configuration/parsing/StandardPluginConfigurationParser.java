@@ -40,7 +40,6 @@ public final class StandardPluginConfigurationParser implements PluginConfigurat
     @Override
     public PluginConfigurationDescriptor parsePluginConfiguration(final URL configurationURL) throws PluginConfigurationParsingException {
         try {
-
             tryValidatingXMLFileAgainstSchema(configurationURL.openStream(), XML_SCHEMA_URL.openStream());
             final Element rootPluginElement = getRootElementForXML(configurationURL.openStream());
 

@@ -16,7 +16,7 @@ public abstract class BasePlugin extends BaseFeature implements Plugin {
 
     protected BasePlugin(final String label, final String bundle, final Version version, final FeatureMetadata metadata, final List<Dependency<?>> dependencies) {
         super(label, bundle, version, metadata);
-        this.dependencies = new HashSet<>(dependencies);
+        this.dependencies = Collections.unmodifiableSet(new HashSet<>(dependencies));
     }
 
     protected BasePlugin(final String label, final String bundle, final Version version, final List<Dependency<?>> dependencies) {

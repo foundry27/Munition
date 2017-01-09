@@ -1,5 +1,7 @@
 package pw.stamina.munition.event.core.selection;
 
+import java.util.Objects;
+
 /**
  * @author Mark Johnson
  */
@@ -11,6 +13,6 @@ public class ObjectSelector<K> extends AbstractUnarySelector<K> {
 
     @Override
     public boolean canSelect(final K k) {
-        return key.equals(k);
+        return Objects.equals(key, k);
     }
 }

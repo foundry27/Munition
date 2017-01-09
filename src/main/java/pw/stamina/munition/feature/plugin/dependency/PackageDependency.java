@@ -16,7 +16,7 @@ public class PackageDependency extends AbstractAutomaticLookupDependency<ClassLo
     private final String packageName;
 
     public PackageDependency(final String packageName) {
-        this.packageName = Objects.requireNonNull(packageName);
+        this.packageName = Objects.requireNonNull(packageName, "The package name cannot be null");
     }
 
     @Override

@@ -2,6 +2,7 @@ package pw.stamina.munition.event.core.routing;
 
 import pw.stamina.munition.event.core.registration.Registration;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -16,8 +17,8 @@ public class RoutingCompletionListenerRouterDecorator<K, V> implements Router<K,
     private final Consumer<V> valueConsumer;
 
     public RoutingCompletionListenerRouterDecorator(final Router<K, V> backingRouter, final Consumer<V> valueConsumer) {
-        this.backingRouter = backingRouter;
-        this.valueConsumer = valueConsumer;
+        this.backingRouter = Objects.requireNonNull(backingRouter, "The backing router cannot be null");
+        this.valueConsumer = Objects.requireNonNull(valueConsumer, "The value consumer cannot be null");
     }
 
     @Override

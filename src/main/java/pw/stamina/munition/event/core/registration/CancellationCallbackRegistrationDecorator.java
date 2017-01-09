@@ -2,6 +2,8 @@ package pw.stamina.munition.event.core.registration;
 
 import pw.stamina.munition.event.core.selection.Selector;
 
+import java.util.Objects;
+
 /**
  * @author Mark Johnson
  */
@@ -12,8 +14,8 @@ public class CancellationCallbackRegistrationDecorator<K, T> implements Registra
     private final Runnable cancellationCallback;
 
     public CancellationCallbackRegistrationDecorator(final Registration<K, T> backingRegistration, final Runnable cancellationCallback) {
-       this.backingRegistration = backingRegistration;
-       this.cancellationCallback = cancellationCallback;
+       this.backingRegistration = Objects.requireNonNull(backingRegistration, "The backing registration cannot be null");
+       this.cancellationCallback = Objects.requireNonNull(cancellationCallback, "The cancellation callback cannot be null");
     }
 
     @Override

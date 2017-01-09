@@ -18,7 +18,9 @@ public class DependencyResolverBuilder<T> {
     }
 
     private static void validateTypeCompatibility(final Type type, final Object object) {
-        if (type instanceof Class) {
+        if (type == null) {
+            throw new NullPointerException("Null types are not supported by this builder");
+        } else if (type instanceof Class) {
             if (!((Class) type).isInstance(object)) {
                 throw new IllegalArgumentException(String.format("Type %s is not compatible with an object of type %s",
                         type.getTypeName(), object.getClass().getTypeName()));

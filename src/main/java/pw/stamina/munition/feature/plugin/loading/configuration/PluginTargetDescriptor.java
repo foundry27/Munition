@@ -19,8 +19,8 @@ public final class PluginTargetDescriptor {
     private final Version minTargetVersion;
 
     public PluginTargetDescriptor(final String targetName, final String targetBundle, final Version minTargetVersion, final Version maxTargetVersion) {
-        this.targetName = targetName;
-        this.targetBundle = targetBundle;
+        this.targetName = Objects.requireNonNull(targetName, "The target name cannot be null");
+        this.targetBundle = Objects.requireNonNull(targetBundle, "The target bundle cannot be null");
         this.minTargetVersion = minTargetVersion == null ? Version.MIN_VERSION : minTargetVersion;
         this.maxTargetVersion = maxTargetVersion == null ? Version.MAX_VERSION : maxTargetVersion;
     }

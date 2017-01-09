@@ -1,5 +1,6 @@
 package pw.stamina.munition.input.keyboard;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -24,11 +25,11 @@ public class DeferringKeyListenerProvider<K> implements KeyListenerProvider<K> {
                                         final Runnable pauseAction,
                                         final Runnable resumeAction,
                                         final Runnable cancelAction) {
-        this.listenerSubscriber = listenerSubscriber;
-        this.listenerUnsubscriber = listenerUnsubscriber;
-        this.pauseAction = pauseAction;
-        this.resumeAction = resumeAction;
-        this.cancelAction = cancelAction;
+        this.listenerSubscriber = Objects.requireNonNull(listenerSubscriber, "The listener subscription consumer cannot be null");
+        this.listenerUnsubscriber = Objects.requireNonNull(listenerUnsubscriber, "The listener unsubscription consumer cannot be null");
+        this.pauseAction = Objects.requireNonNull(pauseAction, "The pause action cannot be null");
+        this.resumeAction = Objects.requireNonNull(resumeAction, "The resume action cannot be null");
+        this.cancelAction = Objects.requireNonNull(cancelAction, "The cancellation action cannot be null");
     }
 
     @Override

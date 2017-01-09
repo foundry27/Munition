@@ -20,9 +20,9 @@ public abstract class BaseFeature implements Feature {
     private final FeatureMetadata metadata;
 
     protected BaseFeature(final String label, final String bundle, final Version version, final FeatureMetadata metadata) {
-        this.label = label;
-        this.bundle = bundle;
-        this.version = version;
+        this.label = Objects.requireNonNull(label, "The label cannot be null");
+        this.bundle = Objects.requireNonNull(bundle, "The bundle cannot be null");
+        this.version = Objects.requireNonNull(version, "The version cannot be null");
         this.metadata = metadata;
     }
 

@@ -23,14 +23,16 @@ public abstract class AnnotatedPlugin extends AnnotatedFeature implements Plugin
     private final Set<Dependency<?>> dependencies;
 
     protected AnnotatedPlugin() {
-        this.dependencies = Stream.of(getClass().getDeclaredAnnotation(Dependencies.class))
+        this.dependencies = Collections.unmodifiableSet(
+                Stream.of(getClass().getDeclaredAnnotation(Dependencies.class))
                 .filter(Objects::nonNull)
                 .flatMap(dependencies -> Stream.of(
                         getFeatureDependencies(dependencies.features()),
                         getClassDependencies(dependencies.classes()),
                         getPackageDependencies(dependencies.packages())))
                 .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet())
+        );
     }
 
     @Override

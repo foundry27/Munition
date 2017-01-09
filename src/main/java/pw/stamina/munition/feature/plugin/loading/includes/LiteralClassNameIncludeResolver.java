@@ -4,6 +4,8 @@ import pw.stamina.munition.feature.plugin.loading.PluginLoadingException;
 import pw.stamina.munition.feature.plugin.loading.includes.instantiation.InstantiationStrategy;
 import pw.stamina.munition.feature.plugin.loading.includes.instantiation.ObjectInstantiationException;
 
+import java.util.Objects;
+
 /**
  * @author Mark Johnson
  */
@@ -16,9 +18,9 @@ public class LiteralClassNameIncludeResolver<T> implements IncludeResolver<T> {
     private final InstantiationStrategy<T> instantiationStrategy;
 
     public LiteralClassNameIncludeResolver(final Class<T> includeType, final ClassLoader classLoader, final InstantiationStrategy<T> instantiationStrategy) {
-        this.includeType = includeType;
-        this.classLoader = classLoader;
-        this.instantiationStrategy = instantiationStrategy;
+        this.includeType = Objects.requireNonNull(includeType, "The include type cannot be null");
+        this.classLoader = Objects.requireNonNull(classLoader, "The ClassLoader cannot be null");
+        this.instantiationStrategy = Objects.requireNonNull(instantiationStrategy, "The instantiation strategy cannot be null");
     }
 
     @Override

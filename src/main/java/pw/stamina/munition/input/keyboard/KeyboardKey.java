@@ -17,7 +17,7 @@ public final class KeyboardKey<K> {
 
     private KeyboardKey(final char characterRepresentation, final K internalRepresentation) {
         this.characterRepresentation = characterRepresentation;
-        this.internalRepresentation = internalRepresentation;
+        this.internalRepresentation = Objects.requireNonNull(internalRepresentation, "The internal key representation cannot be null");
     }
 
     public static <K> KeyboardKey<K> from(final char characterRepresentation, final K internalRepresentation) {

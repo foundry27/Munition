@@ -1,5 +1,6 @@
 package pw.stamina.munition.event.core.selection;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -8,7 +9,7 @@ import java.util.function.Predicate;
 public class PredicateSelector<K> extends AbstractBiSelector<K, Predicate<K>> {
 
     public PredicateSelector(final Predicate<K> key) {
-        super(key);
+        super(Objects.requireNonNull(key, "Predicate for selector cannot be null"));
     }
 
     @Override

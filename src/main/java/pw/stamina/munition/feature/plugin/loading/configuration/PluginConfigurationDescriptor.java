@@ -12,8 +12,8 @@ public final class PluginConfigurationDescriptor {
     private final PluginIncludesDescriptor pluginIncludesDescriptor;
 
     public PluginConfigurationDescriptor(final PluginTargetDescriptor pluginTargetDescriptor, final PluginIncludesDescriptor pluginIncludesDescriptor) {
-        this.pluginTargetDescriptor = pluginTargetDescriptor;
-        this.pluginIncludesDescriptor = pluginIncludesDescriptor;
+        this.pluginTargetDescriptor = Objects.requireNonNull(pluginTargetDescriptor, "The plugin target descriptor cannot be null");
+        this.pluginIncludesDescriptor = Objects.requireNonNull(pluginIncludesDescriptor, "The plugin includes descriptor cannot be null");
     }
 
     public PluginTargetDescriptor getPluginTarget() {

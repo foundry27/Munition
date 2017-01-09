@@ -13,6 +13,7 @@ public final class ExtensionDescriptors {
     private ExtensionDescriptors() {}
 
     public static ExtensionDescriptor from(final String label, final String bundle, final Version version, final Author... authors) {
-        return new SimpleImmutableExtensionDescriptor(label, bundle, version, Arrays.asList(authors));
+        return new ImmutableExtensionDescriptorDecorator(
+                new AbstractExtensionDescriptor(label, bundle, version, Arrays.asList(authors)) {});
     }
 }

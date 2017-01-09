@@ -5,6 +5,7 @@ import pw.stamina.munition.event.core.registration.registry.Registry;
 import pw.stamina.munition.event.core.routing.Router;
 import pw.stamina.munition.event.core.selection.Selector;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -18,8 +19,8 @@ public abstract class AbstractEventBus<K, E> implements EventBus<K, E> {
     private final Router<K, E> router;
 
     protected AbstractEventBus(final Registry<K, BiConsumer<K, E>> consumerRegistry, final Router<K, E> router) {
-        this.consumerRegistry = consumerRegistry;
-        this.router = router;
+        this.consumerRegistry = Objects.requireNonNull(consumerRegistry, "The consumer registry cannot be null");
+        this.router = Objects.requireNonNull(router, "The router cannot be null");
     }
 
     @Override

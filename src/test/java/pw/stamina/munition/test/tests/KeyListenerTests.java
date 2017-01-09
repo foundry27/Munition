@@ -7,10 +7,7 @@ import pw.stamina.munition.event.core.registration.registry.SimpleRegistry;
 import pw.stamina.munition.event.core.routing.SimpleRouter;
 import pw.stamina.munition.event.core.selection.Selectors;
 import pw.stamina.munition.event.core.SimpleEventBus;
-import pw.stamina.munition.input.keyboard.EventDrivenKeyListenerProvider;
-import pw.stamina.munition.input.keyboard.KeyListener;
-import pw.stamina.munition.input.keyboard.KeyListenerProvider;
-import pw.stamina.munition.input.keyboard.KeyboardKey;
+import pw.stamina.munition.input.keyboard.*;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -31,7 +28,7 @@ public class KeyListenerTests {
 
         final Set<KeyboardKey<Character>> keys = Collections.singleton(KeyboardKey.from('A', 'A'));
 
-        final KeyListenerProvider<Character> listenerProvider = new EventDrivenKeyListenerProvider<>(bus, key -> {
+        final KeyListenerProvider<Character> listenerProvider = KeyListeners.makeEventDrivenProvider(bus, key -> {
             return Selectors.$(new KeyInteraction<>(KeyInteraction.Type.PRESS, key));
         }, key -> {
             return Selectors.$(new KeyInteraction<>(KeyInteraction.Type.RELEASE, key));

@@ -3,6 +3,7 @@ package pw.stamina.munition.event.core.routing;
 import pw.stamina.munition.event.core.filtering.KeyedFilter;
 import pw.stamina.munition.event.core.registration.Registration;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
@@ -16,8 +17,8 @@ public class FilteringRouterDecorator<K, V> implements Router<K, V> {
     private final Iterable<KeyedFilter<Registration<? extends K, BiConsumer<K, V>>, V>> filters;
 
     public FilteringRouterDecorator(final Router<K, V> backingRouter, final Iterable<KeyedFilter<Registration<? extends K, BiConsumer<K, V>>, V>> filters) {
-        this.backingRouter = backingRouter;
-        this.filters = filters;
+        this.backingRouter = Objects.requireNonNull(backingRouter, "The backing router cannot be null");
+        this.filters = Objects.requireNonNull(filters, "The provided filters cannot be null");
     }
 
     @Override

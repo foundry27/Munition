@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * @author Mark Johnson
@@ -13,7 +14,7 @@ public class ClassLoaderResourcePluginConfigurationLoader implements PluginConfi
     private final ClassLoader classLoader;
 
     public ClassLoaderResourcePluginConfigurationLoader(final ClassLoader classLoader) {
-        this.classLoader = classLoader;
+        this.classLoader = Objects.requireNonNull(classLoader, "The ClassLoader cannot be null");
     }
 
     @Override

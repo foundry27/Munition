@@ -10,7 +10,7 @@ public final class PluginIncludesDescriptor {
     private final Iterable<String> includeData;
 
     public PluginIncludesDescriptor(final Iterable<String> includeData) {
-        this.includeData = includeData;
+        this.includeData = Objects.requireNonNull(includeData, "The include data cannot be null");
     }
 
     public Iterable<String> getIncludeData() {

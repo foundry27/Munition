@@ -2,6 +2,7 @@ package pw.stamina.munition.event.core.selection;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -32,7 +33,7 @@ public final class Selectors {
     }
 
     public static <K extends CharSequence> Selector<K> regex(final String regex) {
-        return new RegexSelector<>(Pattern.compile(regex));
+        return new RegexSelector<>(Pattern.compile(Objects.requireNonNull(regex, "Regex string for selector cannot be null")));
     }
 
     public static <K> Selector<K> isA(final Class<? extends K> clazz) {
@@ -52,10 +53,9 @@ public final class Selectors {
         for (Class<?> clazz = object.getClass(); clazz.getSuperclass() != null; clazz = clazz.getSuperclass()) {
             final Function<Object, Selector<?>> lookupFromClass = DYNAMIC_SELECTOR_FACTORIES.get(clazz);
             if (lookupFromClass == null) {
-                for (final Class<?> superInterface : clazz.getInterfaces()) {
-                    final Function<Object, Selector<?>> lookupFromInterface = DYNAMIC_SELECTOR_FACTORIES.get(superInterface);
-                    if (lookupFromInterface != null) {
-                        return (Selector<K>) lookupFromInterface.apply(object);
+                for (final Map.Entry<Class<?>, Function<Object, Selector<?>>> factoryMapping : DYNAMIC_SELECTOR_FACTORIES.entrySet()) {
+                    if (factoryMapping.getKey().isAssignableFrom(clazz)) {
+                        return (Selector<K>) factoryMapping.getValue().apply(object);
                     }
                 }
             } else {

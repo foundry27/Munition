@@ -3,6 +3,7 @@ package pw.stamina.munition.feature.core.metadata;
 import pw.stamina.munition.core.metadata.Author;
 import pw.stamina.munition.core.metadata.Authored;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -10,14 +11,14 @@ import java.util.Optional;
 /**
  * @author Mark Johnson
  */
-public class FeatureMetadata implements Authored {
+public final class FeatureMetadata implements Authored {
 
     private final List<Author> authors;
 
     private final String description;
 
     public FeatureMetadata(final List<Author> authors, final String description) {
-        this.authors = Objects.requireNonNull(authors);
+        this.authors = Collections.unmodifiableList(Objects.requireNonNull(authors, "The authors list cannot be null"));
         this.description = description;
     }
 
