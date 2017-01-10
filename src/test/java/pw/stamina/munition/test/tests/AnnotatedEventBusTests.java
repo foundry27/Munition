@@ -2,8 +2,8 @@ package pw.stamina.munition.test.tests;
 
 import org.junit.Test;
 import pw.stamina.munition.event.annotated.Reactive;
-import pw.stamina.munition.event.annotated.SimpleAnnotatedEventBus;
-import pw.stamina.munition.event.annotated.listeners.Listener;
+import pw.stamina.munition.event.annotated.field.SimpleAnnotatedFieldEventBus;
+import pw.stamina.munition.event.annotated.field.listeners.Listener;
 import pw.stamina.munition.event.core.Event;
 import pw.stamina.munition.event.core.ScanningEventBus;
 import pw.stamina.munition.core.traits.Cancellable;
@@ -24,7 +24,7 @@ public class AnnotatedEventBusTests {
 
     @Test
     public void testAnnotatedListenerRegistrationAndCancellation() {
-        final ScanningEventBus<Object, Event<Object>, Object> bus = new SimpleAnnotatedEventBus<>(
+        final ScanningEventBus<Object, Event<Object>, Object> bus = new SimpleAnnotatedFieldEventBus<>(
                 new SimpleRegistry<>(),
                 new SimpleRouter<>()
         );

@@ -11,10 +11,7 @@ import java.net.URL;
 import java.security.AccessControlContext;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -32,7 +29,7 @@ public class PluginLoader implements Iterable<Plugin> {
 
     private final PluginConfigurationParser configurationParser;
 
-    private final Map<String, Plugin> cachedPlugins;
+    private final List<Plugin> cachedPlugins;
 
     private Iterator<Plugin> lazyLookupIterator;
 
@@ -46,7 +43,7 @@ public class PluginLoader implements Iterable<Plugin> {
         this.configurationFilePath = configurationFilePath;
         this.configurationLoader = configurationLoader;
         this.configurationParser = configurationParser;
-        this.cachedPlugins  = new LinkedHashMap<>();
+        this.cachedPlugins  = new ArrayList<>();
         reload();
     }
 
@@ -65,7 +62,7 @@ public class PluginLoader implements Iterable<Plugin> {
 
     private class CachedPluginIterator implements Iterator<Plugin> {
 
-        private final Iterator<Plugin> knownPlugins = cachedPlugins.values().iterator();
+        private final Iterator<Plugin> knownPlugins = cachedPlugins.iterator();
 
         public boolean hasNext() {
             return knownPlugins.hasNext() || lazyLookupIterator.hasNext();
@@ -127,7 +124,7 @@ public class PluginLoader implements Iterable<Plugin> {
 
             final Plugin plugin = includeResolver.resolveInclude(pluginClassName);
 
-            cachedPlugins.put(pluginClassName, plugin);
+            cachedPlugins.add(plugin);
 
             return plugin;
         }

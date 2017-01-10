@@ -1,5 +1,6 @@
-package pw.stamina.munition.event.annotated;
+package pw.stamina.munition.event.annotated.field;
 
+import pw.stamina.munition.event.annotated.ScanResultCollector;
 import pw.stamina.munition.event.core.Event;
 import pw.stamina.munition.event.core.ScanFailedException;
 import pw.stamina.munition.event.core.registration.registry.Registry;
@@ -16,11 +17,11 @@ import java.util.stream.Collectors;
 /**
  * @author Mark Johnson
  */
-public class CachingAnnotatedEventBus<K, E, R> extends AbstractAnnotatedEventBus<K, Event<E>, R> {
+public class CachingAnnotatedFieldEventBus<K, E, R> extends AbstractAnnotatedFieldEventBus<K, Event<E>, R> {
 
     private final ConcurrentMap<R, List<Object>> fieldContentsCache = new ConcurrentHashMap<>();
 
-    public CachingAnnotatedEventBus(final Registry<K, BiConsumer<K, Event<E>>> registrations, final Router<K, Event<E>> router) {
+    public CachingAnnotatedFieldEventBus(final Registry<K, BiConsumer<K, Event<E>>> registrations, final Router<K, Event<E>> router) {
         super(registrations, router);
     }
 
@@ -28,7 +29,7 @@ public class CachingAnnotatedEventBus<K, E, R> extends AbstractAnnotatedEventBus
     public ScanResult<K, Event<E>> scan(final R registrant) throws ScanFailedException {
         return fieldContentsCache.computeIfAbsent(registrant, reg ->
                 Arrays.stream(reg.getClass().getDeclaredFields())
-                    .filter(CachingAnnotatedEventBus::checkIfValidFieldAndEnsureConsistency)
+                    .filter(CachingAnnotatedFieldEventBus::checkIfValidFieldAndEnsureConsistency)
                     .map(field -> getFieldContents(field, reg))
                     .collect(Collectors.toList()))
                 .stream()

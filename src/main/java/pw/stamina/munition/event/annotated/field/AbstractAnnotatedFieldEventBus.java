@@ -1,7 +1,8 @@
-package pw.stamina.munition.event.annotated;
+package pw.stamina.munition.event.annotated.field;
 
-import pw.stamina.munition.event.annotated.listeners.KeyedListener;
-import pw.stamina.munition.event.annotated.listeners.Listener;
+import pw.stamina.munition.event.annotated.Reactive;
+import pw.stamina.munition.event.annotated.field.listeners.KeyedListener;
+import pw.stamina.munition.event.annotated.field.listeners.Listener;
 import pw.stamina.munition.event.core.AbstractScanningEventBus;
 import pw.stamina.munition.event.core.ScanFailedException;
 import pw.stamina.munition.event.core.registration.Registration;
@@ -18,9 +19,9 @@ import java.util.function.Consumer;
 /**
  * @author Mark Johnson
  */
-public abstract class AbstractAnnotatedEventBus<K, E, R> extends AbstractScanningEventBus<K, E, R> {
+public abstract class AbstractAnnotatedFieldEventBus<K, E, R> extends AbstractScanningEventBus<K, E, R> {
 
-    protected AbstractAnnotatedEventBus(final Registry<K, BiConsumer<K, E>> registrations, final Router<K, E> router) {
+    protected AbstractAnnotatedFieldEventBus(final Registry<K, BiConsumer<K, E>> registrations, final Router<K, E> router) {
         super(registrations, router);
     }
 
@@ -45,7 +46,7 @@ public abstract class AbstractAnnotatedEventBus<K, E, R> extends AbstractScannin
         }
     }
 
-    protected final static boolean checkIfValidFieldAndEnsureConsistency(final Field field) {
+    protected static boolean checkIfValidFieldAndEnsureConsistency(final Field field) {
         if (!field.isAnnotationPresent(Reactive.class)) {
             return false;
         } else {
@@ -56,8 +57,8 @@ public abstract class AbstractAnnotatedEventBus<K, E, R> extends AbstractScannin
             if (!Modifier.isFinal(field.getModifiers())) {
                 throw new ScanFailedException("@Reactive-annotated fields must be marked as final to be registered");
             }
+            return true;
         }
-        return true;
     }
 
 }

@@ -1,4 +1,4 @@
-package pw.stamina.munition.event.annotated.listeners;
+package pw.stamina.munition.event.annotated.field.listeners;
 
 import pw.stamina.munition.event.core.Event;
 
