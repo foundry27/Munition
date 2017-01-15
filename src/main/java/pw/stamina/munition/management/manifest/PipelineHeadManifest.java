@@ -27,10 +27,7 @@ public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implem
     @Override
     protected Manifest<T> generateManifestStage(final Supplier<Stream<T>> streamSupplier) {
         return new PipelineNodeManifest<>(streamSupplier,
-                stream -> {
-                    final List<T> removalCandidates = stream.collect((Supplier<List<T>>) ArrayList::new, List::add, List::addAll);
-                    backingCollection.removeAll(removalCandidates);
-                },
+                stream -> backingCollection.removeAll(stream.collect((Supplier<List<T>>) ArrayList::new, List::add, List::addAll)),
                 this::register,
                 this::remove);
     }
@@ -53,10 +50,7 @@ public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implem
     @Override
     public <R extends T> Manifest<R> mapDown(final Function<? super T, ? extends R> mapper) {
         return new PipelineNodeManifest<>(() -> generateBackingStream().map(mapper),
-                stream -> {
-                    final List<T> removalCandidates = stream.collect((Supplier<List<T>>) ArrayList::new, List::add, List::addAll);
-                    backingCollection.removeAll(removalCandidates);
-                },
+                stream -> backingCollection.removeAll(stream.collect((Supplier<List<T>>) ArrayList::new, List::add, List::addAll)),
                 this::register,
                 this::remove);
     }
