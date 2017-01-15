@@ -1,6 +1,7 @@
 package pw.stamina.munition.management.manifest;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -26,7 +27,10 @@ public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implem
     @Override
     protected Manifest<T> generateManifestStage(final Supplier<Stream<T>> streamSupplier) {
         return new PipelineNodeManifest<>(streamSupplier,
-                stream -> backingCollection.removeAll(stream.collect(Collectors.toList())),
+                stream -> {
+                    final List<T> removalCandidates = stream.collect(Collectors.toList());
+                    backingCollection.removeAll(removalCandidates);
+                },
                 this::register,
                 this::remove);
     }
@@ -49,7 +53,10 @@ public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implem
     @Override
     public <R extends T> Manifest<R> mapDown(final Function<? super T, ? extends R> mapper) {
         return new PipelineNodeManifest<>(() -> generateBackingStream().map(mapper),
-                stream -> backingCollection.removeAll(stream.collect(Collectors.toList())),
+                stream -> {
+                    final List<T> removalCandidates = stream.collect(Collectors.toList());
+                    backingCollection.removeAll(removalCandidates);
+                },
                 this::register,
                 this::remove);
     }
