@@ -7,8 +7,6 @@ import java.util.Objects;
  */
 public class Event<T> {
 
-    private static final Event<?> EMPTY_EVENT = new Event<>(null);
-
     private T data;
 
     private Event(final T data) {
@@ -29,7 +27,7 @@ public class Event<T> {
 
     @SuppressWarnings("unchecked")
     public static <T> Event<T> empty() {
-        return (Event<T>) EMPTY_EVENT;
+        return new Event<>(null);
     }
 
     @Override
