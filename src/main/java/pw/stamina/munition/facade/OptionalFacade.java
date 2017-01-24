@@ -9,13 +9,7 @@ public interface OptionalFacade<T> extends Facade<T> {
     @Override
     T reify() throws ReificationException;
 
-    default boolean isPresent() {
-        try {
-            return reify() != null;
-        } catch (final ReificationException e) {
-            return false;
-        }
-    }
+    boolean isPresent();
 
     default Optional<T> asOptional() {
         return isPresent() ? Optional.of(reify()) : Optional.empty();

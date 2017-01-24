@@ -1,14 +1,17 @@
-package pw.stamina.munition.facade;
+package pw.stamina.munition.facade.reflection;
 
-import pw.stamina.munition.facade.locating.ExplicitDeclaredFieldLocator;
-import pw.stamina.munition.facade.locating.ExplicitDeclaredMethodLocator;
+import pw.stamina.munition.facade.OptionalFacade;
+import pw.stamina.munition.facade.ReificationException;
+import pw.stamina.munition.facade.reflection.locating.ExplicitDeclaredFieldLocator;
+import pw.stamina.munition.facade.reflection.locating.ExplicitDeclaredMethodLocator;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
  * @author Mark Johnson
  */
-public class ClassFacade implements OptionalFacade<Class<?>> {
+public final class ClassFacade implements OptionalFacade<Class<?>> {
 
     private final String backingClassName;
 
@@ -75,5 +78,28 @@ public class ClassFacade implements OptionalFacade<Class<?>> {
 
     public MethodFacade getMethod(final String methodName, final Class<?>... parameterTypes) {
         return MethodFacade.of(this, new ExplicitDeclaredMethodLocator(methodName, parameterTypes));
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final ClassFacade that = (ClassFacade) o;
+        return Objects.equals(backingClassName, that.backingClassName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(backingClassName);
+    }
+
+    @Override
+    public String toString() {
+        return "ClassFacade{" +
+                "backingClassName='" + backingClassName + '\'' +
+                ", classLoader=" + classLoader +
+                ", presenceChecked=" + presenceChecked +
+                ", backingClass=" + backingClass +
+                '}';
     }
 }

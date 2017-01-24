@@ -1,4 +1,4 @@
-package pw.stamina.munition.facade.locating;
+package pw.stamina.munition.facade.reflection.locating;
 
 /**
  * @author Mark Johnson
