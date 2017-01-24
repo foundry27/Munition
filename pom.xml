@@ -47,8 +47,10 @@
                 <configuration>
                     <includes>
                         <include>pw.stamina.munition.test.tests.AnnotatedEventBusTests</include>
+                        <include>pw.stamina.munition.test.tests.AnnotatedMethodEventBusTests</include>
                         <include>pw.stamina.munition.test.tests.DirectEventBusTests</include>
                         <include>pw.stamina.munition.test.tests.EventSelectorTests</include>
+                        <include>pw.stamina.munition.test.tests.FacadeTests</include>
                         <include>pw.stamina.munition.test.tests.FunctionalManifestTests</include>
                         <include>pw.stamina.munition.test.tests.KeyListenerTests</include>
                         <include>pw.stamina.munition.test.tests.PluginAnnotationsTests</include>
