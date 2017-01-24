@@ -2,3 +2,5 @@
 
 ##The next-generation Java game extension framework
 
+[![Build Status](https://travis-ci.org/foundry27/Munition.svg?branch=master)](https://travis-ci.org/foundry27/Munition)
+[![codecov](https://codecov.io/gh/foundry27/Munition/branch/master/graph/badge.svg)](https://codecov.io/gh/foundry27/Munition)
