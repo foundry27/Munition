@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 /**
  * @author Mark Johnson
  */
-public final class PipelineNodeManifest<T, S extends PipelineNodeManifest<T, S>> extends AbstractDeferringManifest<T> implements Manifest<T> {
+public final class PipelineNodeMutableManifest<T, S extends PipelineNodeMutableManifest<T, S>> extends AbstractDeferringMutableManifest<T> implements MutableManifest<T> {
 
     private final Supplier<Stream<T>> streamSupplier;
 
@@ -19,10 +19,10 @@ public final class PipelineNodeManifest<T, S extends PipelineNodeManifest<T, S>>
 
     private final Consumer<T> removalStrategy;
 
-    public PipelineNodeManifest(final Supplier<Stream<T>> streamSupplier,
-                                final Consumer<Stream<? extends T>> evictionStrategy,
-                                final Consumer<T> registrationStrategy,
-                                final Consumer<T> removalStrategy) {
+    public PipelineNodeMutableManifest(final Supplier<Stream<T>> streamSupplier,
+                                       final Consumer<Stream<? extends T>> evictionStrategy,
+                                       final Consumer<T> registrationStrategy,
+                                       final Consumer<T> removalStrategy) {
         this.streamSupplier = streamSupplier;
         this.evictionStrategy = evictionStrategy;
         this.registrationStrategy = registrationStrategy;
@@ -37,7 +37,7 @@ public final class PipelineNodeManifest<T, S extends PipelineNodeManifest<T, S>>
     @Override
     @SuppressWarnings("unchecked")
     protected S generateManifestStage(final Supplier<Stream<T>> streamSupplier) {
-        return (S) new PipelineNodeManifest<T, S>(streamSupplier, evictionStrategy, registrationStrategy, removalStrategy);
+        return (S) new PipelineNodeMutableManifest<T, S>(streamSupplier, evictionStrategy, registrationStrategy, removalStrategy);
     }
 
     @Override
@@ -57,8 +57,8 @@ public final class PipelineNodeManifest<T, S extends PipelineNodeManifest<T, S>>
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R extends T> Manifest<R> mapDown(final Function<? super T, ? extends R> mapper) {
-        return new PipelineNodeManifest<>(() -> streamSupplier.get().map(mapper),
+    public <R extends T> MutableManifest<R> mapDown(final Function<? super T, ? extends R> mapper) {
+        return new PipelineNodeMutableManifest<>(() -> streamSupplier.get().map(mapper),
                 (Consumer<Stream<? extends R>>) evictionStrategy::accept,
                 (Consumer<R>) registrationStrategy,
                 (Consumer<R>) removalStrategy);

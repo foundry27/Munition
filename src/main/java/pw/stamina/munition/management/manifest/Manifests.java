@@ -8,10 +8,10 @@ import java.util.Collection;
  */
 public class Manifests {
     public static <T> Manifest<T> newManifest(final Collection<T> elementCollection) {
-        return new PipelineHeadManifest<>(elementCollection);
+        return new PipelineHeadMutableManifest<>(elementCollection);
     }
 
-    public static <T> Manifest<T> newManifest() {
-        return newManifest(new ArrayList<>());
+    public static <T> MutableManifest<T> newManifest() {
+        return new PipelineHeadMutableManifest<>(new ArrayList<>());
     }
 }

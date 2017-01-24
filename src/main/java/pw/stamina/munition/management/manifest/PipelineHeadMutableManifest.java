@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 /**
  * @author Mark Johnson
  */
-public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implements Manifest<T> {
+public class PipelineHeadMutableManifest<T> extends AbstractDeferringMutableManifest<T> implements MutableManifest<T> {
 
     private final Collection<T> backingCollection;
 
-    public PipelineHeadManifest(final Collection<T> backingCollection) {
+    public PipelineHeadMutableManifest(final Collection<T> backingCollection) {
         this.backingCollection = Objects.requireNonNull(backingCollection, "The backing collection cannot be null");
     }
 
@@ -25,8 +25,8 @@ public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implem
     }
 
     @Override
-    protected Manifest<T> generateManifestStage(final Supplier<Stream<T>> streamSupplier) {
-        return new PipelineNodeManifest<>(streamSupplier,
+    protected MutableManifest<T> generateManifestStage(final Supplier<Stream<T>> streamSupplier) {
+        return new PipelineNodeMutableManifest<>(streamSupplier,
                 stream -> backingCollection.removeAll(stream.collect((Supplier<List<T>>) ArrayList::new, List::add, List::addAll)),
                 this::register,
                 this::remove);
@@ -48,8 +48,8 @@ public class PipelineHeadManifest<T> extends AbstractDeferringManifest<T> implem
     }
 
     @Override
-    public <R extends T> Manifest<R> mapDown(final Function<? super T, ? extends R> mapper) {
-        return new PipelineNodeManifest<>(() -> generateBackingStream().map(mapper),
+    public <R extends T> MutableManifest<R> mapDown(final Function<? super T, ? extends R> mapper) {
+        return new PipelineNodeMutableManifest<>(() -> generateBackingStream().map(mapper),
                 stream -> backingCollection.removeAll(stream.collect((Supplier<List<T>>) ArrayList::new, List::add, List::addAll)),
                 this::register,
                 this::remove);

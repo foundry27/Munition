@@ -12,11 +12,11 @@ import java.util.stream.Stream;
 /**
  * @author Mark Johnson
  */
-public abstract class AbstractDeferringManifest<T> implements Manifest<T> {
+public abstract class AbstractDeferringMutableManifest<T> implements MutableManifest<T> {
     
     protected abstract Stream<T> generateBackingStream();
     
-    protected abstract Manifest<T> generateManifestStage(Supplier<Stream<T>> streamSupplier);
+    protected abstract MutableManifest<T> generateManifestStage(Supplier<Stream<T>> streamSupplier);
 
     @Override
     public abstract void evict();
@@ -28,37 +28,37 @@ public abstract class AbstractDeferringManifest<T> implements Manifest<T> {
     public abstract void remove(T entry);
 
     @Override
-    public Manifest<T> filter(final Predicate<? super T> predicate) {
+    public MutableManifest<T> filter(final Predicate<? super T> predicate) {
         return generateManifestStage(() -> generateBackingStream().filter(predicate));
     }
 
     @Override
-    public Manifest<T> distinct() {
+    public MutableManifest<T> distinct() {
         return generateManifestStage(() -> generateBackingStream().distinct());
     }
 
     @Override
-    public Manifest<T> sorted() {
+    public MutableManifest<T> sorted() {
         return generateManifestStage(() -> generateBackingStream().sorted());
     }
 
     @Override
-    public Manifest<T> sorted(final Comparator<? super T> comparator) {
+    public MutableManifest<T> sorted(final Comparator<? super T> comparator) {
         return generateManifestStage(() -> generateBackingStream().sorted(comparator));
     }
 
     @Override
-    public Manifest<T> peek(final Consumer<? super T> action) {
+    public MutableManifest<T> peek(final Consumer<? super T> action) {
         return generateManifestStage(() -> generateBackingStream().peek(action));
     }
 
     @Override
-    public Manifest<T> limit(final long maxSize) {
+    public MutableManifest<T> limit(final long maxSize) {
         return generateManifestStage(() -> generateBackingStream().limit(maxSize));
     }
 
     @Override
-    public Manifest<T> skip(final long n) {
+    public MutableManifest<T> skip(final long n) {
         return generateManifestStage(() -> generateBackingStream().skip(n));
     }
 

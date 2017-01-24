@@ -7,7 +7,7 @@ import pw.stamina.munition.feature.annotated.FeatureModel;
 import pw.stamina.munition.feature.annotated.versioning.VersionModel;
 import pw.stamina.munition.feature.core.Feature;
 import pw.stamina.munition.feature.plugin.Plugin;
-import pw.stamina.munition.management.manifest.Manifest;
+import pw.stamina.munition.management.manifest.MutableManifest;
 import pw.stamina.munition.management.manifest.Manifests;
 
 import static org.junit.Assert.assertEquals;
@@ -18,14 +18,14 @@ import static org.junit.Assert.assertEquals;
 public class FunctionalManifestTests {
     @Test
     public void testUsingFunctionalManifest() {
-        final Manifest<Feature> featureManifest = Manifests.newManifest();
+        final MutableManifest<Feature> featureManifest = Manifests.newManifest();
         featureManifest.register(new PluginA());
         featureManifest.register(new FeatureB());
 
         assertEquals(2, featureManifest.count());
 
 
-        final Manifest<Plugin> pluginManifest = featureManifest
+        final MutableManifest<Plugin> pluginManifest = featureManifest
                 .filter(Plugin.class::isInstance)
                 .mapDown(Plugin.class::cast);
 
