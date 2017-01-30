@@ -6,11 +6,11 @@ import java.util.Set;
 /**
  * @author Mark Johnson
  */
-public final class NonnullValidatingKeyListenerProvider<K> implements KeyListenerProvider<K> {
+public final class NonnullValidatingKeyListenerProviderDecorator<K> implements KeyListenerProvider<K> {
 
     private final KeyListenerProvider<K> backingProvider;
 
-    public NonnullValidatingKeyListenerProvider(final KeyListenerProvider<K> backingProvider) {
+    public NonnullValidatingKeyListenerProviderDecorator(final KeyListenerProvider<K> backingProvider) {
         this.backingProvider = backingProvider;
     }
 
