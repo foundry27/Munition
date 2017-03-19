@@ -54,7 +54,6 @@
                         <include>pw.stamina.munition.test.tests.FunctionalManifestTests</include>
                         <include>pw.stamina.munition.test.tests.KeyListenerTests</include>
                         <include>pw.stamina.munition.test.tests.PluginAnnotationsTests</include>
-                        <include>pw.stamina.munition.test.tests.PluginLoadingTests</include>
                     </includes>
                 </configuration>
             </plugin>
