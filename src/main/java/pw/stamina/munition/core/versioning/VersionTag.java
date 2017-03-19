@@ -4,7 +4,8 @@ package pw.stamina.munition.core.versioning;
  * @author Mark Johnson
  */
 public enum VersionTag implements Comparable<VersionTag> {
-    SNAPSHOT("SNAPSHOT");
+    SNAPSHOT("SNAPSHOT"),
+    ALPHA("ALPHA"), BETA("BETA"), RELEASE_CANDIDATE("RC"), RELEASE("RELEASE");
 
     private final String tagName;
 
@@ -14,5 +15,10 @@ public enum VersionTag implements Comparable<VersionTag> {
 
     public String getTagName() {
         return tagName;
+    }
+
+    @Override
+    public String toString() {
+        return getTagName();
     }
 }

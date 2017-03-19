@@ -4,8 +4,8 @@
 
     <groupId>pw.stamina</groupId>
     <artifactId>munition</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>0.6.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <name>Munition</name>
     <description>The next-generation Java game extension framework</description>
@@ -56,6 +56,25 @@
                         <include>pw.stamina.munition.test.tests.PluginAnnotationsTests</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

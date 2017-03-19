@@ -16,8 +16,8 @@ public class SimpleDependencyResolver<T> implements DependencyResolver<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <U extends T> U getResolutionObject(final Type type) throws ResolutionObjectNotFoundException {
+        @SuppressWarnings("unchecked")
         final U lookup = (U) dependencyMap.get(type);
         if (lookup == null) {
             throw new ResolutionObjectNotFoundException(String.format("There is no resolution object available matching the type signature %s", type));
