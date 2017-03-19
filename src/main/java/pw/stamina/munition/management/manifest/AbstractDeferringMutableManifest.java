@@ -28,6 +28,11 @@ public abstract class AbstractDeferringMutableManifest<T> implements MutableMani
     public abstract void remove(T entry);
 
     @Override
+    public ImmutableManifest<T> toImmutable() {
+        return new ImmutableMutableManifestDecorator<>(this);
+    }
+
+    @Override
     public MutableManifest<T> filter(final Predicate<? super T> predicate) {
         return generateManifestStage(() -> generateBackingStream().filter(predicate));
     }

@@ -1,10 +1,10 @@
 package pw.stamina.munition.management.manifest.processing;
 
-import pw.stamina.munition.management.manifest.Manifest;
+import pw.stamina.munition.management.manifest.ImmutableManifest;
 
 /**
  * @author Mark Johnson
  */
 public interface ManifestProcessor<IN, OUT> {
-    Manifest<OUT> processManifest(Manifest<IN> inManifest);
+    ImmutableManifest<OUT> processManifest(ImmutableManifest<IN> inManifest);
 }

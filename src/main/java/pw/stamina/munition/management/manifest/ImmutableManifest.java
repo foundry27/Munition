@@ -6,8 +6,8 @@ import java.util.function.Function;
 /**
  * @author Mark Johnson
  */
-public interface Manifest<T> extends StreamLike<T, MutableManifest<T>>, Iterable<T> {
-    <R extends T> Manifest<R> mapDown(Function<? super T, ? extends R> mapper);
+public interface ImmutableManifest<T> extends StreamLike<T, ImmutableManifest<T>>, Iterable<T> {
+    <R extends T> ImmutableManifest<R> mapDown(Function<? super T, ? extends R> mapper);
 
     void forEach(final Consumer<? super T> action);
 }
